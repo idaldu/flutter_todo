@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_todo/widgets/groups/groups_widget_model.dart';
+import 'package:flutter_todo/ui/widgets/groups/groups_widget_model.dart';
 
 class GroupsWidget extends StatefulWidget {
   const GroupsWidget({Key? key}) : super(key: key);
@@ -68,22 +68,16 @@ class _GroupListRowWidget extends StatelessWidget {
     required this.indexInList,
   }) : super(key: key);
 
-  void onPressed(BuildContext context) {
-    print('Нажал');
-  }
-
   @override
   Widget build(BuildContext context) {
     final model = GroupsWidgetModelProvider.read(context)!.model;
-    final group =
-        model.groups[indexInList];
+    final group = model.groups[indexInList];
     return Slidable(
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) =>
-                model.deleteGroup(indexInList),
+            onPressed: (context) => model.deleteGroup(indexInList),
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -94,7 +88,7 @@ class _GroupListRowWidget extends StatelessWidget {
       child: ListTile(
         title: Text(group.name),
         trailing: const Icon(Icons.chevron_right),
-        onTap: () {},
+        onTap: () => model.showTask(context, indexInList),
       ),
     );
   }

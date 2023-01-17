@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/domain/entity/group.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,7 +12,8 @@ class GroupFormWidgetModel {
     final box = await Hive.openBox<Group>('group_box');
     final group = Group(name: groupName);
     await box.add(group);
-    Navigator.of(context).pop();
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
   }
 }
 
@@ -39,6 +38,6 @@ class GroupFormWidgetModelProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(GroupFormWidgetModelProvider oldWidget) {
-    return true;
+    return false;
   }
 }
