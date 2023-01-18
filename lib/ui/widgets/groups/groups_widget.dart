@@ -20,6 +20,12 @@ class _GroupsWidgetState extends State<GroupsWidget> {
       child: const GroupWidgetBody(),
     );
   }
+
+  @override
+  void dispose() {
+    _model.dispose();
+    super.dispose();
+  }
 }
 
 class GroupWidgetBody extends StatelessWidget {

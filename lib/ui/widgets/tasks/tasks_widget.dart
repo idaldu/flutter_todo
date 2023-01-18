@@ -4,11 +4,21 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:flutter_todo/ui/widgets/tasks/tasks_widget_model.dart';
 
-class TasksWidget extends StatefulWidget {
+class TaskWidgetConfiguration {
   final int groupKey;
+  final String title;
+
+  TaskWidgetConfiguration({
+    required this.groupKey,
+    required this.title,
+  });
+}
+
+class TasksWidget extends StatefulWidget {
+  final TaskWidgetConfiguration configuration;
   const TasksWidget({
     Key? key,
-    required this.groupKey,
+    required this.configuration,
   }) : super(key: key);
 
   @override
@@ -16,32 +26,16 @@ class TasksWidget extends StatefulWidget {
 }
 
 class TasksWidgetState extends State<TasksWidget> {
-
-  // создали свойство с типом нашего класса модели, 
+  // создали свойство с типом нашего класса модели,
   // и перенесли его инициализацию.
   late final TasksWidgetModel _model;
 
   @override
   void initState() {
     super.initState();
-    // выполнили инициализацию модели и передали ключ
-    _model = TasksWidgetModel(groupKey: widget.groupKey);
+    // выполнили инициализацию модели и передали конфигурацию:
+    _model = TasksWidgetModel(configuration: widget.configuration);
   }
-
-  // но можно это делать вот так, по старинке
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  // тут мы создали экзепляр класса и передали
-  // в него ключ группы, при этом мы если вызовется
-  // метод didChangeDependencies, модель не будет снова
-  // инициализированна
-  //   if (_model == null) {
-  //     final groupKey = ModalRoute.of(context)!.settings.arguments as int;
-  //     _model = TasksWidgetModel(groupKey: groupKey);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +43,12 @@ class TasksWidgetState extends State<TasksWidget> {
         // тут по идее нужно обработать если нет модели, но это потом
         model: _model,
         child: const TasksWidgetBody());
+  }
+
+  @override
+  void dispose() {
+    _model.dispose();
+    super.dispose();
   }
 }
 
@@ -58,7 +58,7 @@ class TasksWidgetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = TasksWidgetModelProvider.watch(context)?.model;
-    final title = model?.group?.name ?? 'Задачи';
+    final title = model?.configuration.title ?? 'Задачи';
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

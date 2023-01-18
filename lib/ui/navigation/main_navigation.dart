@@ -4,10 +4,9 @@ import 'package:flutter_todo/ui/widgets/groups/groups_widget.dart';
 import 'package:flutter_todo/ui/widgets/task_form/task_form_widget.dart';
 import 'package:flutter_todo/ui/widgets/tasks/tasks_widget.dart';
 
-
 // тут специально сделан первый экран как `/` для того
 // чтобы не отрисовывалась кнопка назад на первом экране
-// она бы отрисовывалась из-за initialRoute, так как он 
+// она бы отрисовывалась из-за initialRoute, так как он
 // расформировывает все на пути через слеш, а сам слеш это тоже путь
 abstract class MainNavigationRoutsNames {
   static const groups = '/';
@@ -42,9 +41,9 @@ class MainNavigation {
     switch (settings.name) {
       // тут через конструктор мы передаем groupKey
       case MainNavigationRoutsNames.tasks:
-        final groupKey = settings.arguments as int;
+        final configuration = settings.arguments as TaskWidgetConfiguration;
         return MaterialPageRoute(
-          builder: (context) => TasksWidget(groupKey: groupKey),
+          builder: (context) => TasksWidget(configuration: configuration),
         );
       case MainNavigationRoutsNames.tasksForm:
         final groupKey = settings.arguments as int;
