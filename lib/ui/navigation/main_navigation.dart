@@ -17,10 +17,10 @@ abstract class MainNavigationRoutsNames {
 
 // с помощью данного класса мы управляем
 // маршрутами с одного места
-
-// вся навигация прописана тут
+// вся навигация прописана тут, а также логика передачи конфигурации:
 class MainNavigation {
-  // главный роут с которого стартует прила
+
+  // главный роут с которого стартует прила:
   final initialRoute = MainNavigationRoutsNames.groups;
 
   // прописали все роуты, чтобы также менять их в одном месте,
@@ -35,11 +35,10 @@ class MainNavigation {
   // от переданного пути, также она может передавать аргументы,
   // что выгодно отличает ее от навигации выше.
   // тут тип object потому как он безопаснее,
-  // у него есть свойства только Object, а e dynamic
-  // есть все свойства
+  // у него есть свойства только Object, а нe dynamic
+  // так как у dynamic есть все свойства и это плохо для производительности:
   Route<Object> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // тут через конструктор мы передаем groupKey
       case MainNavigationRoutsNames.tasks:
         final configuration = settings.arguments as TaskWidgetConfiguration;
         return MaterialPageRoute(

@@ -6,13 +6,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // создали экземпляр навигации в которой прописана
+    // логика роутов, а также передача конфигурации
     final mainNavigation = MainNavigation();
 
     return MaterialApp(
       title: 'Flutter ToDo',
       theme: ThemeData(primarySwatch: Colors.blue),
+
+      // основные роуты в которых не передается конфигурация:
       routes: mainNavigation.routes,
+
+      // стартовый экран, роут который откроется вначале:
       initialRoute: mainNavigation.initialRoute,
+
+      // генерация роутов с передачей конфигурации, если мы вызываем роут
+      // которого нет в routes, то вызывается данный метод.
       onGenerateRoute: mainNavigation.onGenerateRoute,
     );
   }
