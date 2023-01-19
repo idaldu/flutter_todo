@@ -20,25 +20,10 @@ class TaskFormWidgetState extends State<TaskFormWidget> {
   @override
   void initState() {
     super.initState();
-    
+
     // инициализировали модель, передали ключ
     _model = TasksFormWidgetModel(groupKey: widget.groupKey);
   }
-
-  // старый вариант исполнения
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  // тут мы создали экзепляр класса и передали
-  // в него ключ группы, при этом мы если вызовется
-  // метод didChangeDependencies, модель не будет снова
-  // инициализированна
-  //   if (_model == null) {
-  //     final groupKey = ModalRoute.of(context)!.settings.arguments as int;
-  //     _model = TasksFormWidgetModel(groupKey: groupKey);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +39,14 @@ class _TextFormWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = TaskFormWidgetModelProvider.watch(context)?.model;
+
+    // записали кнопку в переменную:
+    final actionButton = FloatingActionButton(
+      onPressed: () => model?..saveTasks(context),
+      child: const Icon(Icons.done),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Новая задача'),
@@ -64,11 +57,9 @@ class _TextFormWidgetBody extends StatelessWidget {
           child: _TaskTextWidget(),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            TaskFormWidgetModelProvider.read(context)?.model.saveTasks(context),
-        child: const Icon(Icons.done),
-      ),
+
+      // показываем кнопку только когда вписали текст:
+      floatingActionButton: model?.isValid == true ? actionButton : null,
     );
   }
 }
