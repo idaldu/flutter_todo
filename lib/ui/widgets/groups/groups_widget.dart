@@ -41,6 +41,7 @@ class GroupWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     // упрощаем вызов модели в виджете:
     final model = GroupsWidgetModelProvider.read(context)?.model;
 
@@ -114,15 +115,18 @@ class _GroupListRowWidget extends StatelessWidget {
     // виджет который добавляем
     // боковые свайпы для другого виджета:
     return Slidable(
+
       // данное свойство показываем свайпы вконце,
       //также можно установить вначале:
       endActionPane: ActionPane(
+
         // вид анимации с которой будут появляться пункты меню:
         motion: const ScrollMotion(),
 
         // список в котором находятся пункты меню, далее их параметры:
         children: [
           SlidableAction(
+
             // действие при нажатии на пункт,
             // тут мы через модель вызываем нужный метод:
             onPressed: (context) => model.deleteGroup(indexInList),
@@ -138,6 +142,7 @@ class _GroupListRowWidget extends StatelessWidget {
       // сам виджет строки, использовали уже
       // предустановленный с определенными свойствами:
       child: ListTile(
+        
         // получаем имя группы:
         title: Text(group.name),
         trailing: const Icon(Icons.chevron_right),

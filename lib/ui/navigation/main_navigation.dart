@@ -40,15 +40,23 @@ class MainNavigation {
   Route<Object> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case MainNavigationRoutsNames.tasks:
+
+        // тут мы перехватываем конфигурацию через переданный 
+        // агумент и передаем ее через MaterialPageRoute генерируя экран с конфигурацией:
         final configuration = settings.arguments as TaskWidgetConfiguration;
         return MaterialPageRoute(
           builder: (context) => TasksWidget(configuration: configuration),
         );
+
       case MainNavigationRoutsNames.tasksForm:
         final groupKey = settings.arguments as int;
         return MaterialPageRoute(
           builder: (context) => TaskFormWidget(groupKey: groupKey),
         );
+
+        
+        // дефолтный экран если не подходит ни один ключ, вызывается он. 
+        // тут по идее можно вызвать экран с ошибкой:
       default:
         const widget = Text('Route Error!!!');
         return MaterialPageRoute(
