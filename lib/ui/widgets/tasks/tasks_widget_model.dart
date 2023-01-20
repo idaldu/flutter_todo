@@ -11,7 +11,6 @@ import 'package:flutter_todo/domain/entity/task.dart';
 import 'package:flutter_todo/ui/navigation/main_navigation.dart';
 
 class TasksWidgetModel extends ChangeNotifier {
-
   // принимает конфигурацию с помощью которой создает таски:
   final TaskWidgetConfiguration configuration;
 
@@ -49,7 +48,6 @@ class TasksWidgetModel extends ChangeNotifier {
 
   // первоначальная настройка, вызывается в конструкторе:
   Future<void> _setup() async {
-
     // открываем бокс и регистрируем адаптер:
     _box = BoxManager.instance.openTaskBox(configuration.groupKey);
 
@@ -63,7 +61,7 @@ class TasksWidgetModel extends ChangeNotifier {
     _listenableBox?.addListener(_readTasksFromHive);
   }
 
-  // переход в форму тасков с передачей аргумента в 
+  // переход в форму тасков с передачей аргумента в
   // виде ключа группы для создания задачи именно в нужном боксе:
   void showForm(BuildContext context) {
     Navigator.of(context).pushNamed(MainNavigationRoutsNames.tasksForm,
@@ -85,7 +83,7 @@ class TasksWidgetModel extends ChangeNotifier {
   }
 
   // удаляем бокс с тасками который подвязан к группе,
-  // после удаляем саму группу
+  // после удаляем саму группу:
   @override
   Future<void> dispose() async {
     _listenableBox?.removeListener(_readTasksFromHive);
@@ -94,6 +92,7 @@ class TasksWidgetModel extends ChangeNotifier {
   }
 }
 
+// провайдер который внедряет модель и производит перерисовку билдов у виджетов:
 class TasksWidgetModelProvider extends InheritedNotifier {
   final TasksWidgetModel model;
 

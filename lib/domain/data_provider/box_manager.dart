@@ -2,10 +2,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../entity/group.dart';
 import '../entity/task.dart';
 
+// данный класс работает через синглтон,
+//его нельзя изменить и создать его экземпляр:
 class BoxManager {
   final Map<String, int> _boxCounter = <String, int>{};
+
   // нельзя создать экземпляр данного класса, он доступен глобально
-  // по всему приложению, паттерн синглтон
+  // по всему приложению, паттерн синглтон:
   static final BoxManager instance = BoxManager._();
 
   BoxManager._();
@@ -25,6 +28,8 @@ class BoxManager {
 
   // закрытие бокса + использование метода compact()
   // который удаляет все что хранится в ОЗУ
+  // тут происходит сверка сколько раз был открыт бокс и сколько был закрыт,
+  // если число сходится то бокс закрывается:
   Future<void> closeBox<T>(Box<T> box) async {
     if (!box.isOpen) {
       _boxCounter.remove(box.name);
@@ -45,7 +50,8 @@ class BoxManager {
   String makeTaskBoxName(int groupKey) => 'tasks_box_$groupKey';
 
   // проверяем зарег. ли адаптер (нет, тогда регаем)  и открываем бокс.
-  // она приватная так как нужна для составления вверхних функций
+  // она приватная так как нужна для составления вверхних функций,
+  // тут ведется счётчик открытия для проверки можно ли закрывать:
   Future<Box<T>> _openBox<T>(
     String name,
     int typeId,
